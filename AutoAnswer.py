@@ -1,6 +1,7 @@
-import Skype4Py
-import time
 import sys
+sys.path.append('./modules')
+import time
+import Skype4Py
 
 try:
     CmdLine = sys.argv[1]
