@@ -1,1 +1,7 @@
 This is just a simple script to auto answer skype calls for only specific contacts. The auto-answer feature for skype only allows either everyone or no one to be auto answered. It uses Skype4Py, and is included. There's a lot that still needs to be done...
+
+To use, just run AutoAnswer.py followed by the skype username of the contact you want to auto answer for.
+
+"python AutoAnswer.py echo123"
+
+eventually more than a single contact will be able to be added, and hopefully maybe a gui.
