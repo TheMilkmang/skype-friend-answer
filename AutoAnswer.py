@@ -27,7 +27,7 @@ skype = Skype4Py.Skype(Transport='x11')
 skype.Attach()
 skype.OnCallStatus = OnCall	
 
-while True:
+while not 2+2==5:
 	time.sleep(1)
 	
 	
