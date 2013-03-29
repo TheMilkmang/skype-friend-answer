@@ -51,10 +51,11 @@ def main():
 		print skype.AttachmentStatus
 		print skype.Convert.AttachmentStatusToText(skype.AttachmentStatus)
 		if not skype.AttachmentStatus == 0:
-			try:
-				skype.Attach()
-			except Skype4Py.errors.SkypeAPIError:
-				print "could not attach, maybe you're not logged in yet"
+			if skype.AttachmentStatus == Skype4Py.apiAttachAvailable:
+				try:
+					skype.Attach()
+				except Skype4Py.errors.SkypeAPIError:
+					print "could not attach, maybe you're not logged in yet"
 			
 		
 init()
