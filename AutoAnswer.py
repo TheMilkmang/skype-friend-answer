@@ -37,7 +37,7 @@ def main():
 	skype.Attach()
 	skype.OnCallStatus = OnCall	
 
-	while not 2+2==5:
+	while not 2+2==6:
 		time.sleep(1)
 
 main()
