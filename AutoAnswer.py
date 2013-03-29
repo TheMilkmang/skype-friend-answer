@@ -1,6 +1,5 @@
 import sys
 sys.path.append('./modules')
-
 import time
 import Skype4Py
 
@@ -12,16 +11,25 @@ cmdLine = ""
 def init():
 	global cmdLine
 	cmdLine = sys.argv
-	print len(cmdLine)
+	print 'args: ' + str(len(cmdLine))
 	
 	#if no contact is specified
 	if len(cmdLine) < 2:
 		print 'Usage: python AutoAnswer.py [user] [user2] [user3] etc...'
 		sys.exit()
+		
+	# Connect the Skype object to the Skype client.
+	try:
+		skype.Attach()
+	except Skype4Py.errors.SkypeAPIError:
+		print "could not attach, exiting"
+		sys.exit()
+	#run these functions when these things happen
+	skype.OnCallStatus = onCall	
+		
 #converts skype call status to readable text
 def callStatusText(status):
 	return skype.Convert.CallStatusToText(status)
-	
 
 #Runs when call status changes
 def onCall(call, status):
@@ -37,13 +45,17 @@ def onCall(call, status):
 			print 'no auto answer for', call.PartnerHandle
 
 def main():
-	global skype
-	init()
-	# Connect the Skype object to the Skype client.
-	skype.Attach()
-	skype.OnCallStatus = onCall	
-
-	while not 2+2==6:
+	
+	while True:
 		time.sleep(1)
-
+		print skype.AttachmentStatus
+		print skype.Convert.AttachmentStatusToText(skype.AttachmentStatus)
+		if not skype.AttachmentStatus == 0:
+			try:
+				skype.Attach()
+			except Skype4Py.errors.SkypeAPIError:
+				print "could not attach, maybe you're not logged in yet"
+			
+		
+init()
 main()
