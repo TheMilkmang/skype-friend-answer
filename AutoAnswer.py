@@ -3,36 +3,31 @@ sys.path.append('./modules')
 import time
 import Skype4Py
 
-#Will segfault if Transoprt='x11' isn't there
-skype = Skype4Py.Skype(Transport='x11')
-#global cmdLine variable. So far is only used for adding people to the auto-answer list
-cmdLine = ""
+
+skype = Skype4Py.Skype(Transport='x11')		#Will segfault if Transoprt='x11' isn't there
+cmdLine = "" 								#global cmdLine variable. So far is only used for adding people to the auto-answer list
 
 def init():
 	global cmdLine
 	cmdLine = sys.argv
 	print 'args: ' + str(len(cmdLine))
-	
-	#if no contact is specified
-	if len(cmdLine) < 2:
+
+	if len(cmdLine) < 2:					#if no contact is specified
 		print 'Usage: python AutoAnswer.py [user] [user2] [user3] etc...'
 		sys.exit()
 		
-	# Connect the Skype object to the Skype client.
-	try:
+	try: 									#Connect the Skype object to the Skype client.
 		skype.Attach()
 	except Skype4Py.errors.SkypeAPIError:
-		print "could not attach, exiting"
-		sys.exit()
-	#run these functions when these things happen
-	skype.OnCallStatus = onCall	
+		print "could not attach, are you logged in?"
 		
-#converts skype call status to readable text
-def callStatusText(status):
+	skype.OnCallStatus = onCall				#run these functions when these things happen
+		
+
+def callStatusText(status):					#converts skype call status to readable text
 	return skype.Convert.CallStatusToText(status)
 
-#Runs when call status changes
-def onCall(call, status):
+def onCall(call, status):					#Runs when call status changes
 	global callStatus
 	global cmdLine
 	callStatus = status
@@ -46,16 +41,15 @@ def onCall(call, status):
 
 def main():
 	
-	while True:
+	while True:								#run forever~
 		time.sleep(1)
-		print skype.AttachmentStatus
-		print skype.Convert.AttachmentStatusToText(skype.AttachmentStatus)
-		if not skype.AttachmentStatus == 0:
-			if skype.AttachmentStatus == Skype4Py.apiAttachAvailable:
+
+		while not skype.AttachmentStatus == 0:#if skype isn't attached, keep retrying until it works
 				try:
 					skype.Attach()
 				except Skype4Py.errors.SkypeAPIError:
-					print "could not attach, maybe you're not logged in yet"
+					print "could not attach, maybe you're not logged in yet."
+				time.sleep(10)
 			
 		
 init()
