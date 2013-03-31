@@ -1,10 +1,13 @@
 import sys
+import os
 sys.path.append('./modules')
 import time
 import Skype4Py
 
-
-skype = Skype4Py.Skype(Transport='x11')		#Will segfault if Transoprt='x11' isn't there
+if os.name == "nt":
+	skype = Skype4Py.Skype()
+else:
+	skype = Skype4Py.Skype(Transport='x11')		#Will segfault if Transoprt='x11' isn't there
 cmdLine = "" 								#global cmdLine variable. So far is only used for adding people to the auto-answer list
 
 def init():
